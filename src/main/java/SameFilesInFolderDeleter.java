@@ -4,16 +4,16 @@ import java.io.IOException;
 /**
  * Created by gorshkov on 30.05.2018.
  */
-public class TheSameFilesInFolderDeleter {
+public class SameFilesInFolderDeleter {
     public static void main(String[] args) throws IOException {
-        deleteTheSameFilesInFolder(new File("D:\\test"));
+        sameFilesInFolderDelete(new File("D:\\test"));
     }
 
-    private static void deleteTheSameFilesInFolder(File folder) throws IOException {
+    private static void sameFilesInFolderDelete(File folder) throws IOException {
         File[] folderEntries = folder.listFiles();
         for (File entry0 : folderEntries) {
             if (entry0.isDirectory()) {
-                deleteTheSameFilesInFolder(entry0);
+                sameFilesInFolderDelete(entry0);
                 continue;
             }
             int equalFilesCount = 0;
@@ -21,7 +21,9 @@ public class TheSameFilesInFolderDeleter {
                 final long length0 = entry0.length();
                 final long length1 = entry1.length();
                 if (length0 == length1) {
-                    if (new BinaryCompare().compareExactly(entry0, entry1)) { //check for identity byte-by-byte
+                    final BinaryCompare binaryCompare = new BinaryCompare(); //check for identity byte-by-byte
+                    final boolean compareExactly = binaryCompare.compareExactly(entry0, entry1);
+                    if (compareExactly) {
                         equalFilesCount++;
                     }
                 }
